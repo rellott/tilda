@@ -1,12 +1,14 @@
-from flask import Flask, request
-import requests
+from flask import Flask, request, Response
 
 app = Flask(__name__)
 
-@app.route('/tilda-webhook', methods=['POST'])
-def tilda_webhook():
-    data = request.json  # get the data sent by Tilda
-    # process the data as needed
-    # for example, you can save it to a database or send it to another service
-    print(data)
-    return 'OK'
+@app.route('/webhook', methods=['POST'])
+def respond():
+    print(request.json)
+
+    response = app.make_response('ok')
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
+
+if __name__ == '__main__':
+    app.run()
